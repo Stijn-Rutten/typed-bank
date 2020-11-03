@@ -15,6 +15,23 @@ export class Bank {
     }
 
     printWelcomeMessage(account: BankAccount): void {
-        console.log(`[${this.config.name}] welcomes ${account}`);
+        let message: string;
+
+        switch (this.config.language) {
+            case 'en':
+                message = `[${this.config.name}] welcomes ${account}`;
+                break;
+            case 'nl':
+                message = `[${this.config.name}] verwelkomt ${account}`;
+                break;
+            case 'fr':
+                message = `[${this.config.name}] accueille ${account}`;
+                break;
+            default:
+                message = `[${this.config.name}] welcomes ${account}`;
+                break;
+
+        }
+        console.log(message);
     }
 }

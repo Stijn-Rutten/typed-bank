@@ -12,11 +12,10 @@ export class BankServer {
 
     listen(): void {
         const router = this.createRouter();
+        this.app.use(bodyParser.json());
         this.app.use('/api', router);
         this.app.use(express.static('static'));
         this.app.use(express.static('dist'));
-        this.app.use('/src', express.static('src'));
-        this.app.use(bodyParser.json());
         this.app.listen(this.bank.config.port);
         console.log(`Bank "${this.bank.config.name}" listening on port ${this.bank.config.port}`);
     }
@@ -31,8 +30,8 @@ export class BankServer {
         router.route('/accounts')
             .get((_, res) => res.json(this.bank.accounts))
             .post((req, res) => {
-                const maybeCustomer = req.body;
-                if (this.isValid(maybeCustomer)) {
+                const maybeCustomer: unknown = req.body;
+                if (Customer.isCustomer(maybeCustomer)) {
                     this.bank.createAccount(new Customer(
                         maybeCustomer.firstName,
                         maybeCustomer.lastName,
@@ -49,14 +48,5 @@ export class BankServer {
         return router;
     }
 
-    private isValid(customer: any): boolean {
-        if (customer
-            && customer.firstName && typeof customer.firstName === 'string'
-            && customer.lastName && typeof customer.lastName === 'string' &&
-            (!customer.insertion || typeof customer.insertion === 'string')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 }
