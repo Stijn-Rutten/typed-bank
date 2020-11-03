@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+       "configurations": [
+         {
+           "type": "node",
+           "request": "launch",
+           "name": "Launch BankServer",
+           "program": "${workspaceFolder}/dist/server/main.js",
+           "runtimeArgs": [
+             "--experimental-modules"
+           ],
+           "outFiles": [
+             "${workspaceFolder}/dist/**/*.js"
+           ]
+         }
+       ]
+  }
